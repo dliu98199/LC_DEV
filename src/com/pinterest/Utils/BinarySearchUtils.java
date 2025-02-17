@@ -1,4 +1,4 @@
-package com.company.Utils;
+package com.pinterest.Utils;
 import java.util.List;
 
 public class BinarySearchUtils {

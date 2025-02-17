@@ -1,4 +1,4 @@
-package com.company;
+package com.pinterest;
 
 public class Main {
 
@@ -6,4 +6,7 @@ public class Main {
         int result = 1;
         System.out.println("Number of good ranking candidates: " + result);
     }
+
+
+
 }

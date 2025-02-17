@@ -1,44 +1,50 @@
-package com.company;
+package com.pinterest;
 
 import java.util.*;
 
 public class GoodRankingCandidates {
 
     public static int getGoodRankCandidate(double[] engagementScore, double[] relevanceScore, int k) {
-
         if (engagementScore.length != relevanceScore.length) {
-            return -1;
+            return -1;  // Length mismatch
         }
-        int n = relevanceScore.length;
+
+        int n = engagementScore.length;
         if (n <= k) {
-            return 0;
+            return 0;  // Not enough candidates
         }
-
         if (k == 0) {
-            return n;
+            return n;  // All candidates satisfy if k == 0
         }
 
-        // Pair relevance and engagement scores and sort by relevance
-       List<double[]> twoScoreListSorted = new ArrayList<>();
-        for(int i = 0; i < n; i++){
-            twoScoreListSorted.add(new double[]{ relevanceScore[i], engagementScore[i]});
+        // Pair relevance and engagement scores, and sort by relevance
+        List<double[]> pairedScores = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            pairedScores.add(new double[]{relevanceScore[i], engagementScore[i]});
         }
-        twoScoreListSorted.sort(Comparator.comparingDouble(a -> a[0]));
+        pairedScores.sort(Comparator.comparingDouble(a -> a[0]));  // Sort by relevance score
 
-
-        // To keep engagement scores sorted
+        // Use TreeSet for efficient insertion and searching
         List<Double> engagementSortedList = new ArrayList<>();
-        List<Integer> goodCandidateIndex = new ArrayList<>();
+        TreeSet<Double> engagementTreeSet = new TreeSet<>();
         int result = 0;
 
-        for (double[] scores : twoScoreListSorted) {
-           double curEngagementScore = scores[1];
-           int insertPos = bisectLeft(engagementSortedList, curEngagementScore);
-           if(insertPos >= k){
-               result ++;
-               goodCandidateIndex.add(insertPos);
-           }
-           engagementSortedList.add(curEngagementScore);
+        for (double[] scores : pairedScores) {
+
+            double engagement = scores[1];
+
+            // Count how many elements are less than the current engagement score
+            if (engagementTreeSet.headSet(engagement, false).size() >= k) {
+                result++;
+            }
+//            // binary search method:
+//            int insertPos = bisectLeft(engagementSortedList, engagement);
+//            if(insertPos >= k){
+//                result ++;
+//            }
+
+            // Add the engagement score to TreeSet
+            engagementTreeSet.add(engagement);
         }
 
         return result;

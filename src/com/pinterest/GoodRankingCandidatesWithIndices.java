@@ -1,6 +1,6 @@
-package com.company;
+package com.pinterest;
 
-import com.company.Utils.BinarySearchUtils;
+import com.pinterest.Utils.BinarySearchUtils;
 
 import java.util.*;
 

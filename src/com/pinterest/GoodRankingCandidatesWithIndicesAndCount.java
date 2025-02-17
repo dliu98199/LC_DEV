@@ -1,4 +1,4 @@
-package com.company;
+package com.pinterest;
 
 import java.util.*;
 
